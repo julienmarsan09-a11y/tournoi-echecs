@@ -3,6 +3,7 @@
 # avec une seule action possible : ajouter un joueur.
 
 from models.player import Player
+from datetime import datetime
 
 # Cette liste contient tous les joueurs ajoutes pendant qu'on utilise
 # le programme. Attention : pour l'instant rien n'est sauvegarde sur
@@ -26,11 +27,11 @@ def add_player():
     first_name = input("Prénom : ")
     while True:
         birth_date = input("Date de naissance (JJ/MM/AAAA) : ")
-        # On verifie que la date est bien au format attendu.
-        if len(birth_date) == 10 and birth_date[2] == "/" and birth_date[5] == "/":
+        try:
+            datetime.strptime(birth_date, "%d/%m/%Y")
             break
-        else:
-            print("Format invalide, veuillez reessayer.")
+        except ValueError:
+            print("Date invalide, veuillez reessayer.")
     chess_id = input("Identifiant national d'échecs (ex: AB12345) : ")
 
     # On cree un nouvel objet Player avec les infos saisies...
