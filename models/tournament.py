@@ -1,4 +1,10 @@
-"""Modèle représentant un tournoi d'échecs."""
+"""
+Ce fichier contient la classe Tournament (un tournoi).
+
+Un tournoi regroupe des joueurs et plusieurs tours (rounds).
+C'est cette classe qui decide comment les joueurs sont associes
+a chaque tour, en suivant les regles du cahier des charges.
+"""
 
 import random
 
@@ -6,99 +12,102 @@ from models.round import Round
 
 
 class Tournament:
-    """Un tournoi : des joueurs inscrits, qui s'affrontent sur plusieurs tours.
-
-    Attributes:
-        name: Nom du tournoi.
-        location: Lieu du tournoi.
-        start_date: Date de début.
-        end_date: Date de fin.
-        number_of_rounds: Nombre de tours prévus (4 par défaut).
-        current_round: Numéro du tour en cours (0 = pas encore commencé).
-        rounds: Liste des tours déjà joués.
-        players: Liste des joueurs inscrits.
-        description: Remarques générales du directeur du tournoi.
-    """
 
     def __init__(self, name, location, start_date, end_date, number_of_rounds=4, description=""):
         self.name = name
         self.location = location
         self.start_date = start_date
         self.end_date = end_date
-        self.number_of_rounds = number_of_rounds
-        self.current_round = 0
+        self.number_of_rounds = number_of_rounds  # 4 tours par defaut, comme demande
+        self.current_round = 0  # aucun tour joue pour l'instant
         self.rounds = []
         self.players = []
         self.description = description
 
     def add_player(self, player):
-        """Inscrit un joueur au tournoi."""
         self.players.append(player)
 
     def is_finished(self):
-        """Renvoie True si tous les tours prévus ont été joués."""
+        # Le tournoi est termine quand on a joue tous les tours prevus.
         return self.current_round >= self.number_of_rounds
 
-    def _already_played_pairs(self):
-        """Reconstruit l'ensemble des paires de joueurs qui se sont déjà
-        affrontés, en relisant l'historique des tours déjà joués."""
-        played = set()
-        for round_ in self.rounds:
-            for match in round_.matches:
-                player1, player2 = match[0][0], match[1][0]
-                played.add(frozenset({player1.chess_id, player2.chess_id}))
-        return played
+    def deja_joue_ensemble(self, joueur1, joueur2):
+        # Cette methode verifie si deux joueurs se sont deja affrontes,
+        # en regardant l'historique de tous les tours deja joues.
+        for round_deja_joue in self.rounds:
+            for match in round_deja_joue.matches:
+                adversaire1 = match[0][0]
+                adversaire2 = match[1][0]
+                meme_ordre = adversaire1 == joueur1 and adversaire2 == joueur2
+                ordre_inverse = adversaire1 == joueur2 and adversaire2 == joueur1
+                if meme_ordre or ordre_inverse:
+                    return True
+        return False
 
-    def _make_pairs(self, players_order):
-        """Associe les joueurs deux par deux, en évitant les matchs déjà joués
-        quand c'est possible (voir les specs : 'faites au mieux')."""
-        already_played = self._already_played_pairs()
-        unpaired = list(players_order)
-        pairs = []
+    def creer_les_paires(self, joueurs_dans_l_ordre):
+        # On associe les joueurs deux par deux, dans l'ordre donne,
+        # en evitant si possible de refaire un match deja joue.
+        joueurs_restants = list(joueurs_dans_l_ordre)
+        paires = []
 
-        while unpaired:
-            player1 = unpaired.pop(0)
-            opponent_index = 0
-            for index, candidate in enumerate(unpaired):
-                pair_key = frozenset({player1.chess_id, candidate.chess_id})
-                if pair_key not in already_played:
-                    opponent_index = index
+        while len(joueurs_restants) > 0:
+            joueur1 = joueurs_restants.pop(0)
+
+            # Par defaut, on prend le premier joueur restant comme adversaire...
+            index_adversaire = 0
+
+            # ...mais si un autre joueur n'a pas encore ete affronte, on le prefere.
+            for index in range(len(joueurs_restants)):
+                adversaire_possible = joueurs_restants[index]
+                if not self.deja_joue_ensemble(joueur1, adversaire_possible):
+                    index_adversaire = index
                     break
-            player2 = unpaired.pop(opponent_index)
-            pairs.append((player1, player2))
 
-        return pairs
+            joueur2 = joueurs_restants.pop(index_adversaire)
+            paires.append((joueur1, joueur2))
+
+        return paires
+
+    def get_points(self, player):
+        # Petite fonction utilitaire pour trier les joueurs par points.
+        # sorted() a besoin qu'on lui dise quelle valeur comparer.
+        return player.points
 
     def start_next_round(self):
-        """Démarre le tour suivant : mélange ou trie les joueurs, les associe,
-        crée les matchs, et renvoie le nouveau Round."""
         if self.is_finished():
-            raise ValueError("Le tournoi est déjà terminé.")
+            raise ValueError("Le tournoi est deja termine.")
 
-        if not self.rounds:
-            # Premier tour : ordre aléatoire, comme demandé dans les specs.
-            players_order = list(self.players)
-            random.shuffle(players_order)
+        if len(self.rounds) == 0:
+            # Premier tour : on melange les joueurs au hasard,
+            # comme demande dans le cahier des charges.
+            joueurs_dans_l_ordre = list(self.players)
+            random.shuffle(joueurs_dans_l_ordre)
         else:
-            # Tours suivants : tri par points décroissants.
-            players_order = sorted(self.players, key=lambda player: player.points, reverse=True)
+            # Tours suivants : on trie les joueurs du plus grand
+            # nombre de points au plus petit.
+            joueurs_dans_l_ordre = sorted(self.players, key=self.get_points, reverse=True)
 
-        pairs = self._make_pairs(players_order)
+        paires = self.creer_les_paires(joueurs_dans_l_ordre)
 
-        new_round = Round(f"Round {self.current_round + 1}")
-        for player1, player2 in pairs:
-            new_round.add_match(player1, player2)
+        nouveau_round = Round(f"Round {self.current_round + 1}")
+        for joueur1, joueur2 in paires:
+            nouveau_round.add_match(joueur1, joueur2)
 
-        self.rounds.append(new_round)
-        self.current_round += 1
-        return new_round
+        self.rounds.append(nouveau_round)
+        self.current_round = self.current_round + 1
+        return nouveau_round
 
     def to_dict(self):
-        """Convertit le tournoi en dictionnaire, pour la sauvegarde JSON.
+        # On ne garde que l'identifiant des joueurs (chess_id) : leurs infos
+        # completes sont deja stockees a part, dans la base des joueurs.
+        liste_id_joueurs = []
+        for player in self.players:
+            liste_id_joueurs.append(player.chess_id)
 
-        Les joueurs ne sont référencés que par leur identifiant échecs :
-        leurs infos complètes vivent dans la base des joueurs, pas ici.
-        """
+        liste_rounds = []
+        for round_ in self.rounds:
+            liste_rounds.append(round_.to_dict())
+
         return {
             "name": self.name,
             "location": self.location,
@@ -107,9 +116,9 @@ class Tournament:
             "number_of_rounds": self.number_of_rounds,
             "current_round": self.current_round,
             "description": self.description,
-            "players": [player.chess_id for player in self.players],
-            "rounds": [round_.to_dict() for round_ in self.rounds],
+            "players": liste_id_joueurs,
+            "rounds": liste_rounds,
         }
 
     def __repr__(self):
-        return f"{self.name} - tour {self.current_round}/{self.number_of_rounds} - {len(self.players)} joueur(s)"
+        return f"{self.name} - tour {self.current_round}/{self.number_of_rounds}"
