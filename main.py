@@ -4,12 +4,13 @@
 
 from models.player import Player
 from datetime import datetime
+from models.storage import save_players, load_players
 
 # Cette liste contient tous les joueurs ajoutes pendant qu'on utilise
 # le programme. Attention : pour l'instant rien n'est sauvegarde sur
 # le disque, donc si on ferme le programme, la liste est perdue.
 # Ce sera regle plus tard, avec la sauvegarde en JSON.
-players = []
+players = load_players()
 
 
 def show_menu():
@@ -54,6 +55,7 @@ def main():
         elif choice == "2":
             print("\nAu revoir !")
             # "break" arrete la boucle while : le programme sort du menu.
+            save_players(players)
             break
         else:
             print("\nChoix invalide, réessayez.")
