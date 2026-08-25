@@ -10,11 +10,14 @@ def save_players(players):
         json.dump(liste_de_dicos, fichier)
         
 def load_players():
-    with open("joueurs.json", "r") as fichier:
-        liste_de_dicos = json.load(fichier)
-        
-    players = []
-    for dico in liste_de_dicos:
-        players.append(creer_joueur_depuis_dict(dico))
-        
-    return players
+    try:    
+        with open("joueurs.json", "r") as fichier:
+            liste_de_dicos = json.load(fichier)       
+        players = []
+        for dico in liste_de_dicos:
+            players.append(creer_joueur_depuis_dict(dico))
+            
+        return players
+    except FileNotFoundError:
+        print("Erreur la liste des joueurs n'existe pas")
+        return []
