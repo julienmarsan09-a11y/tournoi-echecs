@@ -9,3 +9,10 @@ def ask_tournament_info():
 
 def show_tournament_created(tournament):
     print(f"\nTournoi créé : {tournament}")
+    
+def ask_chess_id_to_add():
+    chess_id = input("Identifiant du joueur a ajouter (ou 'fin' pour arreter) :")
+    return chess_id
+
+def show_player_added_to_tournament(player):
+    print(f"\n{player} a ete ajoute au tournoi")

@@ -7,6 +7,7 @@ def show_menu():
     print("1. Ajouter un joueur")
     print("2. Quitter")
     print("3. Créer un tournoi")
+    print("4. Ajouter des joueurs au tournoi")
 
 
 def ask_player_info():

@@ -15,8 +15,6 @@ tournaments = []
 
 
 def main():
-    # Une boucle "while True" tourne indefiniment, jusqu'a ce qu'on
-    # rencontre un "break" quelque part a l'interieur.
     while True:
         show_menu()
         choice = input("Votre choix : ")
@@ -25,11 +23,15 @@ def main():
             add_player(players)
         elif choice == "2":
             print("\nAu revoir !")
-            # "break" arrete la boucle while : le programme sort du menu.
             save_players(players)
             break
         elif choice == "3":
             create_tournament(tournaments)
+        elif choice == "4":
+            if len(tournaments) == 0:
+                show_error("Aucun tournoi n'a ete cree.")
+            else:
+                add_players_to_tournament(tournaments[-1], players)
         else:
             show_error("Choix invalide, réessayez.")
 
