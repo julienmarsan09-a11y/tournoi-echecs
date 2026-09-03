@@ -1,1 +1,37 @@
-[{"last_name": "grrh", "first_name": "rherh", "birth_date": "04/06/1984", "chess_id": "AB12345", "points": 0}, {"last_name": "Marsan", "first_name": "Aron", "birth_date": "23/10/2013", "chess_id": "BC12345", "points": 0}, {"last_name": "Marsan", "first_name": "Julien", "birth_date": "04/06/1984", "chess_id": "AB12345", "points": 0}, {"last_name": "Marsan", "first_name": "Luca", "birth_date": "19/06/2009", "chess_id": "BC12345", "points": 0}]
+[
+    {
+        "last_name": "Marsan",
+        "first_name": "Julien",
+        "birth_date": "04/06/1984",
+        "chess_id": "AB12345",
+        "points": 0
+    },
+    {
+        "last_name": "Marsan",
+        "first_name": "Aron",
+        "birth_date": "23/10/2013",
+        "chess_id": "BC12345",
+        "points": 0
+    },
+    {
+        "last_name": "Marsan",
+        "first_name": "Julien",
+        "birth_date": "04/06/1984",
+        "chess_id": "AB12345",
+        "points": 0
+    },
+    {
+        "last_name": "Marsan",
+        "first_name": "Julien",
+        "birth_date": "04/06/1984",
+        "chess_id": "AB12345",
+        "points": 0
+    },
+    {
+        "last_name": "marsan",
+        "first_name": "Julien",
+        "birth_date": "04/06/1984",
+        "chess_id": "ab12345",
+        "points": 0
+    }
+]
