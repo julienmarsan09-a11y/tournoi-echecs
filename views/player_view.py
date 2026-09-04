@@ -1,4 +1,5 @@
 from views.error_view import show_error
+from controllers.tournament_controller import create_tournament, add_players_to_tournament
 
 
 def show_menu():
