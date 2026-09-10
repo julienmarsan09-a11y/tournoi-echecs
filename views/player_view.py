@@ -9,6 +9,9 @@ def show_menu():
     print("2. Quitter")
     print("3. Créer un tournoi")
     print("4. Ajouter des joueurs au tournoi")
+    print("5. Lancer le round suivant")
+    print("6. Saisir les resultats du round en cours")
+    print("7. Cloturer le round en cours")
 
 
 def ask_player_info():

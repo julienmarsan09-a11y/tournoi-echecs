@@ -3,6 +3,7 @@ from views.player_view import show_menu
 from views.error_view import show_error
 from controllers.player_controller import add_player
 from controllers.tournament_controller import create_tournament, add_players_to_tournament
+from controllers.round_controller import lancer_round, saisir_resultats, cloturer_round
 
 # Cette liste contient tous les joueurs. Au demarrage, on la recupere
 # directement depuis le fichier joueurs.json grace a load_players().
@@ -28,6 +29,22 @@ def main():
                 show_error("Aucun tournoi n'a ete cree.")
             else:
                 add_players_to_tournament(tournaments[-1], players)
+        elif choice == "5":
+            if len(tournaments) == 0:
+                show_error("Aucun tournoi n'a ete cree.")
+            else:
+                lancer_round(tournaments[-1])
+        elif choice =="6":
+            
+            if len(tournaments) == 0 or len(tournaments[-1].rounds) == 0:
+                show_error("Aucun round en cours.")
+            else:
+                saisir_resultats(tournaments[-1].rounds[-1])
+        elif choice == "7":
+            if len(tournaments) == 0 or len(tournaments[-1].rounds) == 0:
+                show_error("Aucun round en cours.")
+            else:
+                cloturer_round(tournaments[-1].rounds[-1])
         else:
             show_error("Choix invalide, réessayez.")
 
