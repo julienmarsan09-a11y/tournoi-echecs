@@ -102,6 +102,7 @@ class Tournament:
     def __repr__(self):
         return f"{self.name} - tour {self.current_round}/{self.number_of_rounds}"
 
+
 def creer_tournoi_depuis_dict(dictionnaire, players):
     tournament = Tournament(
         dictionnaire["name"],
@@ -119,6 +120,7 @@ def creer_tournoi_depuis_dict(dictionnaire, players):
         tournament.rounds.append(creer_round_depuis_dict(round_dict, players))
 
     return tournament
+
 
 def trouver_tournoi_par_nom(tournaments, name):
     for tournament in tournaments:

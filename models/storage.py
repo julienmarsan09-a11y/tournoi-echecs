@@ -3,6 +3,7 @@ from models.player import creer_joueur_depuis_dict
 from models.tournament import creer_tournoi_depuis_dict
 from views.error_view import show_error
 
+
 def save_players(players):
     liste_de_dicos = []
     for player in players:
@@ -10,6 +11,7 @@ def save_players(players):
 
     with open("joueurs.json", "w") as fichier:
         json.dump(liste_de_dicos, fichier)
+
 
 def load_players():
     try:
@@ -24,6 +26,7 @@ def load_players():
         show_error("La liste des joueurs n'existe pas")
         return []
 
+
 def save_tournaments(tournaments):
     liste_de_dicos = []
     for tournament in tournaments:
@@ -31,6 +34,7 @@ def save_tournaments(tournaments):
 
     with open("tournois.json", "w") as fichier:
         json.dump(liste_de_dicos, fichier)
+
 
 def load_tournaments(players):
     try:

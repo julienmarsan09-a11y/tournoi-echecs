@@ -35,6 +35,7 @@ def creer_joueur_depuis_dict(dictionnaire):
     joueur.points = dictionnaire.get("points", 0)
     return joueur
 
+
 def trouver_joueur_par_id(players, chess_id):
     for player in players:
         if player.chess_id == chess_id:

@@ -10,6 +10,7 @@ from views.report_view import (
 from views.error_view import show_error
 from models.tournament import trouver_tournoi_par_nom
 
+
 def afficher_rapports(players, tournaments):
     while True:
         show_reports_menu()

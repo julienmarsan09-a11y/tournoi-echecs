@@ -48,8 +48,8 @@ class Round:
 
     def __repr__(self):
         return f"{self.name} - {len(self.matches)} match(s)"
-    
-    
+
+
 def creer_round_depuis_dict(dictionnaire, players):
     round = Round(dictionnaire["name"])
     round.start_datetime = dictionnaire["start_datetime"]
@@ -60,5 +60,5 @@ def creer_round_depuis_dict(dictionnaire, players):
         joueur2 = trouver_joueur_par_id(players, match_dict[1][0])
         score2 = match_dict[1][1]
         round.matches.append(([joueur1, score1], [joueur2, score2]))
-        
+
     return round
