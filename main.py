@@ -1,14 +1,12 @@
-from models.storage import save_players, load_players
+from models.storage import save_players, load_players, save_tournaments, load_tournaments
 from views.player_view import show_menu
 from views.error_view import show_error
 from controllers.player_controller import add_player
 from controllers.tournament_controller import create_tournament, add_players_to_tournament
 from controllers.round_controller import lancer_round, saisir_resultats, cloturer_round
 
-# Cette liste contient tous les joueurs. Au demarrage, on la recupere
-# directement depuis le fichier joueurs.json grace a load_players().
 players = load_players()
-tournaments = []
+tournaments = load_tournaments(players)
 
 
 def main():
@@ -19,32 +17,32 @@ def main():
         if choice == "1":
             add_player(players)
         elif choice == "2":
-            print("\nAu revoir !")
-            save_players(players)
-            break
-        elif choice == "3":
             create_tournament(tournaments)
-        elif choice == "4":
+        elif choice == "3":
             if len(tournaments) == 0:
                 show_error("Aucun tournoi n'a ete cree.")
             else:
                 add_players_to_tournament(tournaments[-1], players)
-        elif choice == "5":
+        elif choice == "4":
             if len(tournaments) == 0:
                 show_error("Aucun tournoi n'a ete cree.")
             else:
                 lancer_round(tournaments[-1])
-        elif choice =="6":
-            
+        elif choice == "5":
             if len(tournaments) == 0 or len(tournaments[-1].rounds) == 0:
                 show_error("Aucun round en cours.")
             else:
                 saisir_resultats(tournaments[-1].rounds[-1])
-        elif choice == "7":
+        elif choice == "6":
             if len(tournaments) == 0 or len(tournaments[-1].rounds) == 0:
                 show_error("Aucun round en cours.")
             else:
                 cloturer_round(tournaments[-1].rounds[-1])
+        elif choice == "7":
+            print("\nAu revoir !")
+            save_players(players)
+            save_tournaments(tournaments)
+            break
         else:
             show_error("Choix invalide, réessayez.")
 

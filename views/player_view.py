@@ -3,15 +3,14 @@ from controllers.tournament_controller import create_tournament, add_players_to_
 
 
 def show_menu():
-    # Cette fonction n'a qu'un role : afficher les choix a l'ecran.
     print("\n--- Menu principal ---")
     print("1. Ajouter un joueur")
-    print("2. Quitter")
-    print("3. Créer un tournoi")
-    print("4. Ajouter des joueurs au tournoi")
-    print("5. Lancer le round suivant")
-    print("6. Saisir les resultats du round en cours")
-    print("7. Cloturer le round en cours")
+    print("2. Créer un tournoi")
+    print("3. Ajouter des joueurs au tournoi")
+    print("4. Lancer le round suivant")
+    print("5. Saisir les resultats du round en cours")
+    print("6. Cloturer le round en cours")
+    print("7. Quitter")
 
 
 def ask_player_info():
