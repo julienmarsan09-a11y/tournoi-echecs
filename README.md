@@ -25,7 +25,20 @@ Depuis le dossier `tournoi_echecs`, lancer :
 python main.py
 ```
 
-Un menu s'affiche dans le terminal, avec un numéro à taper pour chaque action.
+## Comment l'utiliser
+
+Un menu s'affiche dans le terminal. Il suffit de taper le numéro de l'action voulue, puis de suivre les questions posées à l'écran :
+
+1. Ajouter un joueur
+2. Créer un tournoi
+3. Ajouter des joueurs au tournoi
+4. Lancer le round suivant
+5. Saisir les résultats du round en cours
+6. Clôturer le round en cours
+7. Rapports (consulter les joueurs, les tournois, les détails et les résultats)
+8. Quitter (sauvegarde automatique avant de fermer)
+
+Les données sont sauvegardées automatiquement dans `joueurs.json` et `tournois.json`, et rechargées à chaque relancement du programme.
 
 ## Organisation du code
 
@@ -45,3 +58,12 @@ Le projet suit une architecture MVC (Modèle - Vue - Contrôleur) :
 ## Rapport flake8
 
 Le rapport de vérification flake8 (aucune erreur détectée) est disponible dans le dossier `flake8_rapport/`, à ouvrir avec le fichier `index.html`.
+
+Pour générer un nouveau rapport après une modification du code, installer les outils nécessaires puis lancer flake8 avec le plugin HTML, depuis le dossier `tournoi_echecs` :
+
+```
+pip install flake8 flake8-html
+flake8 --max-line-length=119 --format=html --htmldir=flake8_rapport .
+```
+
+Si la commande ne produit aucun message, c'est qu'aucune erreur n'a été trouvée. Le nouveau rapport est alors disponible dans `flake8_rapport/index.html`.
