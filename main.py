@@ -4,6 +4,7 @@ from views.error_view import show_error
 from controllers.player_controller import add_player
 from controllers.tournament_controller import create_tournament, add_players_to_tournament
 from controllers.round_controller import lancer_round, saisir_resultats, cloturer_round
+from controllers.report_controller import afficher_rapports
 
 players = load_players()
 tournaments = load_tournaments(players)
@@ -39,6 +40,8 @@ def main():
             else:
                 cloturer_round(tournaments[-1].rounds[-1])
         elif choice == "7":
+            afficher_rapports(players, tournaments)
+        elif choice == "8":
             print("\nAu revoir !")
             save_players(players)
             save_tournaments(tournaments)

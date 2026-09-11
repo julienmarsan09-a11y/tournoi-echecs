@@ -10,7 +10,8 @@ def show_menu():
     print("4. Lancer le round suivant")
     print("5. Saisir les resultats du round en cours")
     print("6. Cloturer le round en cours")
-    print("7. Quitter")
+    print("7. Rapports")
+    print("8. Quitter")
 
 
 def ask_player_info():

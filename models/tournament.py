@@ -119,3 +119,9 @@ def creer_tournoi_depuis_dict(dictionnaire, players):
         tournament.rounds.append(creer_round_depuis_dict(round_dict, players))
 
     return tournament
+
+def trouver_tournoi_par_nom(tournaments, name):
+    for tournament in tournaments:
+        if tournament.name == name:
+            return tournament
+    return None
